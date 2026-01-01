@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="hi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2025 Recap | Sudhir & Squad</title>
+
+    <!-- External Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Floating Hearts Background -->
+    <div id="floating-hearts"></div>
+
+    <!-- Loading Screen -->
+    <div id="loader">
+      <div class="loader-spinner"></div>
+      <p class="mt-8 text-sm tracking-[0.3em] text-gray-400 uppercase">
+        Loading Memories...
+      </p>
+    </div>
+
+    <!-- Popup Container -->
+    <div id="popup-container"></div>
+
+    <!-- Easter Egg Animation -->
+    <div
+      id="secret-animation"
+      class="secret-animation"
+      onclick="closeSecretAnimation()"
+    >
+      <div class="text-center px-8">
+        <h1 class="secret-text hero-font text-4xl md:text-6xl">
+          🎆 HAPPY NEW YEAR 2026 🎆
+        </h1>
+        <p class="secret-shayari hindi-font">
+          "नया साल है नई उमंगें,<br />
+          दिल में हो खुशियों की तरंगें,<br />
+          दोस्तों का साथ हो हमेशा यूं ही,<br />
+          2026 में रहें सब के सब जिंदादिल!"<br /><br />
+          <span class="text-white text-lg"
+            >✨ हर दिन हो खास, हर पल हो यादगार! ✨</span
+          >
+        </p>
+        <p class="text-gray-500 mt-12 text-sm animate-pulse">
+          Click anywhere to close
+        </p>
+      </div>
+    </div>
+
+    <!-- Mini Game -->
+    <div id="mini-game">
+      <button class="game-back-btn" onclick="closeGame()">
+        <i class="fas fa-arrow-left"></i> Back to Page
+      </button>
+      <h2 class="text-4xl font-bold mb-8 gradient-text hero-font">
+        🎮 Catch The Memories!
+      </h2>
+      <canvas id="game-canvas" width="400" height="500"></canvas>
+      <div class="mt-8 flex gap-8 items-center">
+        <p class="text-2xl">
+          Score:
+          <span id="game-score" class="gradient-text font-bold text-3xl"
+            >0</span
+          >
+        </p>
+        <button
+          onclick="closeGame()"
+          class="btn-primary px-10 py-4 rounded-full text-lg"
+        >
+          🏠 Exit Game
+        </button>
+      </div>
+      <p class="text-gray-400 mt-6 text-sm">
+        Move mouse/finger to catch falling emojis!
+      </p>
+    </div>
+
+    <!-- Lightbox -->
+    <div id="lightbox" onclick="closeLightbox(event)">
+      <button
+        class="absolute top-8 right-8 text-white text-5xl hover:text-red-400 transition hover:rotate-90 duration-300"
+      >
+        &times;
+      </button>
+      <div class="absolute top-8 left-8 flex gap-4">
+        <button
+          onclick="event.stopPropagation(); shareLightbox()"
+          class="bg-white/10 px-6 py-3 rounded-full hover:bg-white/25 transition text-sm font-medium"
+        >
+          <i class="fas fa-share-alt mr-2"></i>Share
+        </button>
+        <button
+          onclick="event.stopPropagation(); likeLightbox()"
+          class="bg-white/10 px-6 py-3 rounded-full hover:bg-red-500/50 transition text-sm font-medium"
+          id="lightbox-like-btn"
+        >
+          <i class="far fa-heart mr-2"></i><span id="lightbox-likes">0</span>
+        </button>
+      </div>
+      <img id="lightbox-img" src="" style="display: none" />
+      <video
+        id="lightbox-video"
+        src=""
+        controls
+        loop
+        style="display: none"
+      ></video>
+      <p
+        id="lightbox-cap"
+        class="absolute bottom-10 text-white hero-font text-3xl px-6 text-center"
+      ></p>
+    </div>
+
+    
+
+    <div id="login-overlay">
+      <div class="glass p-12 w-full max-w-md text-center glow-hover">
+        <div
+          class="w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-8 gradient-bg overflow-hidden border-2 border-red-400"
+        >
+          <img
+            src="sudhir-photo.jpeg"
+            alt="Sudhir"
+            class="w-full h-full object-cover"
+          />
+        </div>
+
+        <h2 class="text-3xl font-bold mb-3">Sudhir's Private Chat</h2>
+        <p class="text-gray-400 text-sm mb-10">
+          Enter credentials to talk with Sudhir
+        </p>
+
+        <div class="space-y-5 mb-10">
+          <input
+            type="text"
+            id="login-name"
+            placeholder="Your Name"
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 outline-none focus:border-red-400 transition text-white text-center text-lg"
+          />
+          <input
+            type="password"
+            id="login-pass"
+            placeholder="Secret Key"
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 outline-none focus:border-red-400 transition text-white text-center text-lg"
+          />
+        </div>
+
+        <div class="flex gap-4">
+          <button
+            onclick="document.getElementById('login-overlay').style.display='none'"
+            class="flex-1 py-4 text-gray-400 hover:text-white border border-white/10 rounded-xl hover:bg-white/5 transition text-lg"
+          >
+            Cancel
+          </button>
+          <button
+            onclick="handleLogin()"
+            class="flex-1 btn-primary py-4 rounded-xl text-lg font-bold"
+          >
+            Unlock Sudhir's Chat 🔓
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Music Control -->
+    <div id="music-control" class="fixed bottom-8 left-8 z-50">
+      <button
+        onclick="toggleMusic()"
+        class="w-16 h-16 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition group gradient-bg"
+      >
+        <i id="music-icon" class="fas fa-music text-white text-xl"></i>
+      </button>
+      <audio id="bg-music" loop src="music.mp4"></audio>
+    </div>
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section
+      class="relative min-h-screen flex items-center justify-center text-center px-4 overflow-hidden py-24"
+    >
+      <div class="absolute inset-0 z-0 parallax-bg" id="hero-bg">
+        <img src="friend.jpeg" class="w-full h-full object-cover opacity-30" />
+        <div
+          class="absolute inset-0 bg-gradient-to-b from-transparent via-[#0f0c29]/80 to-[#0f0c29]"
+        ></div>
+      </div>
+
+      <div class="z-10 w-full max-w-5xl">
+        <span
+          class="uppercase tracking-[0.5em] text-sm font-bold mb-8 block text-orange-400 reveal"
+          >✨ Memories of 2025 ✨</span
+        >
+        <h1
+          class="text-5xl md:text-8xl hero-font text-white mb-10 reveal"
+          style="animation-delay: 0.2s"
+        >
+          Sudhir & Squad
+          <span class="gradient-text block md:inline">Recap</span>
+        </h1>
+
+        <div
+          id="countdown"
+          class="flex justify-center gap-4 md:gap-6 mb-14 flex-wrap reveal"
+          style="animation-delay: 0.4s"
+        ></div>
+
+        <div
+          class="mb-14 max-w-2xl mx-auto px-4 reveal"
+          style="animation-delay: 0.6s"
+        >
+          <p
+            class="hindi-font text-xl md:text-2xl font-bold leading-relaxed text-yellow-300"
+          >
+            "वक़्त की इस रफ़्तार में, कुछ पल ठहर से जाते हैं,<br />
+            जब यार पुराने मिलें, तो फिर से बचपन लौट आते हैं."
+          </p>
+          <p class="mt-5 text-gray-300 text-sm font-medium">
+            — Sudhir Special 💫
+          </p>
+        </div>
+
+        <div
+          class="flex flex-wrap justify-center gap-5 reveal"
+          style="animation-delay: 0.8s"
+        >
+          <a
+            href="#squad"
+            class="btn-primary px-12 py-5 rounded-full uppercase text-sm tracking-widest font-bold"
+            >Meet the 20 Legends</a
+          >
+          <button
+            onclick="document.getElementById('login-overlay').style.display='flex'"
+            class="btn-secondary px-12 py-5 rounded-full uppercase text-sm tracking-widest"
+          >
+            Secret Room 🔐
+          </button>
+        </div>
+
+        <p
+          class="mt-12 text-gray-300 text-sm reveal"
+          style="animation-delay: 1s"
+        >
+          Type
+          <kbd
+            class="px-4 py-2 bg-white/20 rounded-lg mx-1 font-mono font-bold text-yellow-300"
+            >2026</kbd
+          >
+          for a surprise! 🎉
+        </p>
+      </div>
+
+      <div class="absolute bottom-10 left-1/2 -translate-x-1/2">
+        <i
+          class="fas fa-chevron-down text-3xl text-orange-400 animate-bounce"
+        ></i>
+      </div>
+    </section>
+
+    <!-- ==================== STATS SECTION ==================== -->
+    <section class="py-28 px-6 max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+        <div class="reveal-left">
+          <h2 class="text-4xl font-bold mb-12 section-title">
+            2025 In Numbers
+          </h2>
+          <div class="space-y-10 mt-16">
+            <div>
+              <div class="flex justify-between text-sm font-semibold mb-4">
+                <span class="text-gray-300">Vibe Quality</span>
+                <span class="gradient-text font-bold text-lg">100%</span>
+              </div>
+              <div class="stat-bar">
+                <div class="stat-progress" data-width="100%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm font-semibold mb-4">
+                <span class="text-gray-300">Late Night Calls</span>
+                <span class="gradient-text font-bold text-lg">850+</span>
+              </div>
+              <div class="stat-bar">
+                <div class="stat-progress" data-width="85%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm font-semibold mb-4">
+                <span class="text-gray-300">Goa Plan Discussions</span>
+                <span class="gradient-text font-bold text-lg">0000</span>
+              </div>
+              <div class="stat-bar">
+                <div class="stat-progress" data-width="95%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm font-semibold mb-4">
+                <span class="text-gray-300">Friendship Level</span>
+                <span class="gradient-text font-bold text-lg">MAX 🔥</span>
+              </div>
+              <div class="stat-bar">
+                <div class="stat-progress" data-width="100%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="glass p-12 flex flex-col items-center justify-center text-center reveal-right glow-hover"
+        >
+          <div class="text-7xl mb-8">
+            <span class="gradient-text"><i class="fas fa-crown"></i></span>
+          </div>
+          <h3 class="text-3xl font-bold mb-4">Most Active Group</h3>
+          <p class="text-gray-400 italic text-xl">"The Backbenchers 2025"</p>
+          <div class="mt-8 text-sm text-gray-500">
+            Total Memories: 1.5k+ Photos & Videos
+          </div>
+          <button
+            onclick="openGame()"
+            class="mt-10 btn-primary px-10 py-4 rounded-full text-base font-bold"
+          >
+            🎮 Play Mini Game
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SQUAD GRID ==================== -->
+    <section
+      id="squad"
+      class="py-28 px-6"
+      style="
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02) 0%,
+          rgba(233, 69, 96, 0.05) 100%
+        );
+      "
+    >
+      <div class="max-w-7xl mx-auto">
+        <h2 class="text-center text-5xl font-bold mb-5 reveal hero-font">
+          The Ultimate Squad
+        </h2>
+        <p class="text-center text-gray-400 mb-20 reveal text-lg">
+          Click on any card to celebrate! 🎉
+        </p>
+        <div
+          class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-7"
+          id="squad-grid"
+        ></div>
+      </div>
+    </section>
+
+    <!-- ==================== VIDEO HIGHLIGHTS ==================== -->
+    <!-- <section id="videos" class="py-28 px-6 max-w-7xl mx-auto">
+      <h2 class="text-4xl font-bold mb-5 section-title reveal-left">
+        Video Highlights
+      </h2>
+      <p class="text-gray-400 mb-14 reveal-left mt-10 text-lg">
+        Best moments captured in motion 🎬
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div
+          class="gallery-item aspect-video reveal-scale"
+          onclick="openLightbox('https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4', 'Epic Celebration! 🎉', 'video')"
+        >
+          <video
+            src="https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4"
+            muted
+            loop
+            class="w-full h-full object-cover"
+            onmouseover="this.play()"
+            onmouseout="this.pause()"
+          ></video>
+          <div
+            class="share-btn"
+            onclick="event.stopPropagation(); shareMemory('Epic Celebration!')"
+          >
+            <i class="fas fa-share-alt"></i>
+          </div>
+          <div
+            class="like-counter"
+            onclick="event.stopPropagation(); likeMemory(this)"
+          >
+            <i class="fas fa-heart text-red-400"></i> <span>245</span>
+          </div>
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent flex items-end p-6"
+          >
+            <h4 class="text-white font-bold text-lg">Epic Celebration! 🎉</h4>
+          </div>
+        </div>
+        <div
+          class="gallery-item aspect-video reveal-scale"
+          style="animation-delay: 0.15s"
+          onclick="openLightbox('https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_2mb.mp4', 'Road Trip Vibes 🚗', 'video')"
+        >
+          <video
+            src="https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_2mb.mp4"
+            muted
+            loop
+            class="w-full h-full object-cover"
+            onmouseover="this.play()"
+            onmouseout="this.pause()"
+          ></video>
+          <div
+            class="share-btn"
+            onclick="event.stopPropagation(); shareMemory('Road Trip Vibes')"
+          >
+            <i class="fas fa-share-alt"></i>
+          </div>
+          <div
+            class="like-counter"
+            onclick="event.stopPropagation(); likeMemory(this)"
+          >
+            <i class="fas fa-heart text-red-400"></i> <span>189</span>
+          </div>
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent flex items-end p-6"
+          >
+            <h4 class="text-white font-bold text-lg">Road Trip Vibes 🚗</h4>
+          </div>
+        </div>
+        <div
+          class="gallery-item aspect-video reveal-scale"
+          style="animation-delay: 0.3s"
+          onclick="openLightbox('https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4', 'Night Party 🌙', 'video')"
+        >
+          <video
+            src="https://youtu.be/1K4fL_P5rQI?si=kB1idlJ4TnLsl3en"
+            muted
+            loop
+            class="w-full h-full object-cover"
+            onmouseover="this.play()"
+            onmouseout="this.pause()"
+          ></video>
+          <div
+            class="share-btn"
+            onclick="event.stopPropagation(); shareMemory('Night Party')"
+          >
+            <i class="fas fa-share-alt"></i>
+          </div>
+          <div
+            class="like-counter"
+            onclick="event.stopPropagation(); likeMemory(this)"
+          >
+            <i class="fas fa-heart text-red-400"></i> <span>312</span>
+          </div>
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent flex items-end p-6"
+          >
+            <h4 class="text-white font-bold text-lg">Night Party 🌙</h4>
+          </div>
+        </div>
+      </div>
+    </section> -->
+
+
+<section id="videos" class="py-28 px-6 max-w-7xl mx-auto">
+  <h2 class="text-4xl font-bold mb-5 section-title reveal-left">
+    Video Highlights
+  </h2>
+  <p class="text-gray-400 mb-14 reveal-left mt-10 text-lg">
+    Best moments captured in motion 🎬
+  </p>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+    
+    <div
+      class="gallery-item aspect-video reveal-scale"
+      onclick="openLightbox('video1.mp4', 'Epic Celebration! 🎉', 'video')"
+    >
+      <video
+        src="video1.mp4" 
+        muted
+        loop
+        playsinline
+        class="w-full h-full object-cover"
+        onmouseover="this.play()"
+        onmouseout="this.pause()"
+      ></video>
+      <div class="share-btn" onclick="event.stopPropagation(); shareMemory('Epic Celebration!')">
+        <i class="fas fa-share-alt"></i>
+      </div>
+      <div class="like-counter" onclick="event.stopPropagation(); likeMemory(this)">
+        <i class="fas fa-heart text-red-400"></i> <span>245</span>
+      </div>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent flex items-end p-6 pointer-events-none">
+        <h4 class="text-white font-bold text-lg">NATURE 🎉</h4>
+      </div>
+    </div>
+
+    <div
+      class="gallery-item aspect-video reveal-scale"
+      style="animation-delay: 0.15s"
+      onclick="openLightbox('video2.mp4', 'Road Trip Vibes 🚗', 'video')"
+    >
+      <video
+        src="video2.mp4"
+        muted
+        loop
+        playsinline
+        class="w-full h-full object-cover"
+        onmouseover="this.play()"
+        onmouseout="this.pause()"
+      ></video>
+      <div class="share-btn" onclick="event.stopPropagation(); shareMemory('Road Trip Vibes')">
+        <i class="fas fa-share-alt"></i>
+      </div>
+      <div class="like-counter" onclick="event.stopPropagation(); likeMemory(this)">
+        <i class="fas fa-heart text-red-400"></i> <span>189</span>
+      </div>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent flex items-end p-6 pointer-events-none">
+        <h4 class="text-white font-bold text-lg">Happy New Year 2026</h4>
+      </div>
+    </div>
+
+    <div
+      class="gallery-item aspect-video reveal-scale"
+      style="animation-delay: 0.3s"
+      onclick="openLightbox('video3.mp4', 'India', 'video')"
+    >
+      <video
+        src="video3.mp4"
+        muted
+        loop
+        playsinline
+        class="w-full h-full object-cover"
+        onmouseover="this.play()"
+        onmouseout="this.pause()"
+      ></video>
+      <div class="share-btn" onclick="event.stopPropagation(); shareMemory('Night Party')">
+        <i class="fas fa-share-alt"></i>
+      </div>
+      <div class="like-counter" onclick="event.stopPropagation(); likeMemory(this)">
+        <i class="fas fa-heart text-red-400"></i> <span>312</span>
+      </div>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent flex items-end p-6 pointer-events-none">
+        <h4 class="text-white font-bold text-lg">INDIA TRAVEL</h4>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+    <!-- ==================== GALLERY SECTION ==================== -->
+    <!-- <section
+      id="gallery"
+      class="py-28 overflow-hidden"
+      style="background: rgba(0, 0, 0, 0.4)"
+    >
+      <div class="max-w-7xl mx-auto px-6 mb-14">
+        <h2 class="text-4xl font-bold section-title reveal-left">
+          2025 Memories Gallery
+        </h2>
+        <p class="text-gray-400 mt-10 reveal-left text-lg">
+          Hover to pause, click to zoom 📸
+        </p>
+      </div>
+
+      <div class="py-5">
+        <div class="gallery-track" id="gallery-track-1"></div>
+      </div>
+      <div class="py-5">
+        <div
+          class="gallery-track"
+          id="gallery-track-2"
+          style="animation-direction: reverse; animation-duration: 55s"
+        ></div>
+      </div> -->
+
+<section id="gallery" class="py-28 overflow-hidden" style="background: rgba(0, 0, 0, 0.4)">
+  <div class="max-w-7xl mx-auto px-6 mb-14">
+    <h2 class="text-4xl font-bold section-title reveal-left">
+      2025 Memories Gallery
+    </h2>
+    <p class="text-gray-400 mt-10 reveal-left text-lg">
+      Hover to pause, click to zoom 📸
+    </p>
+  </div>
+
+  <div class="py-5">
+    <div class="gallery-track" id="gallery-track-1"></div>
+  </div>
+
+  <div class="py-5">
+    <div class="gallery-track" id="gallery-track-2" style="animation-direction: reverse; animation-duration: 55s"></div>
+  </div>
+
+  <div class="py-5">
+    <div class="gallery-track" id="gallery-track-3" style="animation-duration: 45s"></div>
+  </div>
+</section>
+
+
+
+      <!-- Comments -->
+      <div class="max-w-2xl mx-auto px-6 mt-24 reveal">
+        <h3 class="text-3xl font-bold mb-8">💬 Squad Comments</h3>
+        <div class="comment-box">
+          <div class="comment-item">
+            <img src="HIMANSHU.jpeg" class="comment-avatar" />
+            <div>
+              <p class="font-bold text-lg">
+                Himanshu
+                <span class="text-gray-500 text-xs ml-2 font-normal"
+                  >2 hrs ago</span
+                >
+              </p>
+              <p class="text-gray-400 text-sm mt-2">
+                Best memories ever! Can't wait for 2026 🔥
+              </p>
+            </div>
+          </div>
+          <div class="comment-item">
+            <img src="AARIF.jpeg" class="comment-avatar" />
+            <div>
+              <p class="font-bold text-lg">
+                Aarif
+                <span class="text-gray-500 text-xs ml-2 font-normal"
+                  >5 hrs ago</span
+                >
+              </p>
+              <p class="text-gray-400 text-sm mt-2">
+                ADHAURA trip was legendary! 🏝️
+              </p>
+            </div>
+          </div>
+          <div class="comment-item border-none">
+            <img src="rithm.jpeg" class="comment-avatar" />
+            <div>
+              <p class="font-bold text-lg">
+                Ritik
+                <span class="text-gray-500 text-xs ml-2 font-normal"
+                  >1 day ago</span
+                >
+              </p>
+              <p class="text-gray-400 text-sm mt-2">Miss those days 😢❤️</p>
+            </div>
+          </div>
+          <div class="flex gap-4 mt-8 pt-6 border-t border-white/5">
+            <input
+              type="text"
+              id="comment-input"
+              placeholder="Add a comment..."
+              class="flex-1 bg-white/5 border border-white/10 rounded-full px-6 py-4 outline-none focus:border-red-400 transition text-lg"
+            />
+            <button
+              onclick="addComment()"
+              class="btn-primary px-8 py-4 rounded-full font-bold"
+            >
+              Post
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== CHAT MODAL ==================== -->
+    <div
+      id="chat-modal"
+      class="fixed inset-0 z-[1000] hidden flex items-center justify-center bg-black/96 backdrop-blur-2xl"
+    >
+      <div
+        class="w-full max-w-lg h-full md:h-[85vh] flex flex-col md:rounded-3xl overflow-hidden glass"
+      >
+        <div class="p-6 flex items-center justify-between gradient-bg">
+          <div class="flex items-center gap-5">
+            <img
+              id="chat-avatar"
+              src=""
+              class="w-14 h-14 rounded-full border-3 border-white/40"
+            />
+            <div>
+              <h3 id="chat-title" class="font-bold text-white text-xl">
+                Friend Name
+              </h3>
+              <div
+                id="typing-status-box"
+                class="flex items-center gap-2 opacity-0 transition-opacity duration-300"
+              >
+                <p class="text-xs text-white/80">typing</p>
+                <div class="typing-indicator flex">
+                  <span></span><span></span><span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
+            onclick="closeChat()"
+            class="text-white/80 hover:text-white p-2 text-4xl hover:rotate-90 transition-transform duration-300"
+          >
+            &times;
+          </button>
+        </div>
+
+        <div
+          id="chat-window"
+          class="flex-1 overflow-y-auto p-6 flex flex-col space-y-5"
+          style="background: linear-gradient(180deg, #1a1a2e, #0f3460)"
+        ></div>
+
+        <div
+          id="emoji-tray"
+          class="hidden absolute bottom-28 left-5 right-5 flex justify-around p-5 rounded-full glass"
+        >
+          <button
+            onclick="reactToMessage('❤️')"
+            class="text-4xl hover:scale-130 transition-transform duration-300"
+          >
+            ❤️
+          </button>
+          <button
+            onclick="reactToMessage('😂')"
+            class="text-4xl hover:scale-130 transition-transform duration-300"
+          >
+            😂
+          </button>
+          <button
+            onclick="reactToMessage('🔥')"
+            class="text-4xl hover:scale-130 transition-transform duration-300"
+          >
+            🔥
+          </button>
+          <button
+            onclick="reactToMessage('👍')"
+            class="text-4xl hover:scale-130 transition-transform duration-300"
+          >
+            👍
+          </button>
+          <button
+            onclick="reactToMessage('🙌')"
+            class="text-4xl hover:scale-130 transition-transform duration-300"
+          >
+            🙌
+          </button>
+        </div>
+
+        <div class="p-6 flex items-center gap-5 bg-white/5">
+          <button
+            onclick="toggleEmojiTray()"
+            class="text-gray-400 text-2xl hover:text-white transition"
+          >
+            <i class="far fa-smile"></i>
+          </button>
+          <input
+            type="text"
+            id="chat-input"
+            placeholder="Type a reply..."
+            class="flex-1 rounded-full px-7 py-4 text-white outline-none bg-white/10 border border-white/10 focus:border-red-400 transition text-lg"
+          />
+          <button
+            onclick="handleSendMessage()"
+            class="w-16 h-16 rounded-full flex items-center justify-center text-white gradient-bg hover:scale-110 active:scale-95 transition"
+          >
+            <i class="fas fa-paper-plane text-xl"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="pt-28 pb-16 border-t border-white/5">
+      <div
+        class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-20 mb-24"
+      >
+        <div class="space-y-8 reveal">
+          <h3 class="text-3xl font-bold gradient-text">About Sudhir</h3>
+          <p class="text-gray-400 leading-relaxed text-lg">
+            Main Sudhir, aapka wahi purana dost. 2025 mere liye sirf ek saal
+            nahi, balki ek haseen safar tha. 💫
+          </p>
+          <div class="flex gap-5">
+            <a
+              href="https://www.instagram.com/mysticaura_sk?igsh=ZG1tMnl0em5uY2Vq"
+              target="_blank"
+              class="social-link"
+              ><i class="fab fa-instagram text-xl"></i
+            ></a>
+            <a href="https://wa.me/" target="_blank" class="social-link"
+              ><i class="fab fa-whatsapp text-xl"></i
+            ></a>
+            <a href="https://linkedin.com" target="_blank" class="social-link"
+              ><i class="fab fa-linkedin-in text-xl"></i
+            ></a>
+            <a href="https://twitter.com" target="_blank" class="social-link"
+              ><i class="fab fa-twitter text-xl"></i
+            ></a>
+          </div>
+        </div>
+
+        <div class="space-y-8 reveal" style="animation-delay: 0.2s">
+          <h3 class="text-3xl font-bold gradient-text">Quick Links</h3>
+          <ul class="space-y-5 text-gray-400 text-lg">
+            <li>
+              <a
+                href="#"
+                class="hover:text-white transition flex items-center gap-3"
+                ><i class="fas fa-arrow-up text-sm text-red-400"></i> Back to
+                Top</a
+              >
+            </li>
+            <li>
+              <a
+                href="#squad"
+                class="hover:text-white transition flex items-center gap-3"
+                ><i class="fas fa-users text-sm text-red-400"></i> The 20
+                Legends</a
+              >
+            </li>
+            <li>
+              <a
+                href="#gallery"
+                class="hover:text-white transition flex items-center gap-3"
+                ><i class="fas fa-images text-sm text-red-400"></i> Memory
+                Gallery</a
+              >
+            </li>
+            <li>
+              <button
+                onclick="openGame()"
+                class="hover:text-white transition flex items-center gap-3"
+              >
+                <i class="fas fa-gamepad text-sm text-red-400"></i> Play Game
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <div class="space-y-8 reveal" style="animation-delay: 0.4s">
+          <h3 class="text-3xl font-bold gradient-text">A Message</h3>
+          <div
+            class="glass p-8 text-gray-300 hindi-font text-xl leading-relaxed glow-hover"
+          >
+            "हर साल आता है, जाता है...<br />
+            पर जो दोस्त दिल के करीब रहते हैं,<br />
+            वही ज़िंदगी को खूबसूरत बनाते हैं।" 💖
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center pb-12 px-4">
+        <h2
+          id="final-wish"
+          class="hero-font text-5xl md:text-8xl mb-12 opacity-0 transition-all duration-1000 gradient-text"
+        >
+          Happy New Year 2026! 🥂
+        </h2>
+        <button
+          onclick="cheers()"
+          class="btn-primary px-16 py-7 rounded-full text-2xl shadow-2xl font-bold"
+        >
+          🎆 Celebrate 2026! 🎆
+        </button>
+        <p class="mt-24 font-semibold text-xs text-gray-600 tracking-widest">
+          © 2025 | Made with ❤️ by Sudhir
+        </p>
+      </div>
+    </footer>
+
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+  </body>
+</html>

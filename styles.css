@@ -1,0 +1,783 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600&display=swap');
+
+/* ==================== BASE STYLES ==================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+.hero-font {
+    font-family: 'Playfair Display', serif;
+}
+
+.hindi-font {
+    font-family: 'Noto Sans Devanagari', sans-serif;
+}
+
+/* ==================== GLASS EFFECT ==================== */
+.glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 24px;
+}
+
+/* ==================== GRADIENT STYLES ==================== */
+.gradient-bg {
+    background: linear-gradient(135deg, #FF416C 0%, #FF4B2B 100%);
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, #FF416C 0%, #FF4B2B 50%, #f7971e 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.gradient-blue {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* ==================== FLOATING POPUPS ==================== */
+.float-popup {
+    position: fixed;
+    left: 50%;
+    bottom: -100px;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #FF416C, #FF4B2B);
+    padding: 16px 32px;
+    border-radius: 50px;
+    z-index: 5000;
+    animation: floatUp 7s ease-in-out forwards;
+    white-space: nowrap;
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    pointer-events: none;
+    box-shadow: 0 10px 40px rgba(255, 65, 108, 0.5);
+}
+
+@keyframes floatUp {
+    0% {
+        bottom: -60px;
+        opacity: 0;
+        transform: translateX(-50%) scale(0.8);
+    }
+    10% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        bottom: 90vh;
+        opacity: 0;
+        transform: translateX(-50%) scale(0.9);
+    }
+}
+
+/* ==================== CHAT BUBBLES ==================== */
+.chat-bubble {
+    max-width: 85%;
+    padding: 14px 18px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    position: relative;
+    animation: bubblePop 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes bubblePop {
+    0% {
+        opacity: 0;
+        transform: scale(0.5) translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.bubble-sudhir {
+    background: linear-gradient(135deg, #FF416C, #FF4B2B);
+    color: #fff;
+    align-self: flex-start;
+    border-bottom-left-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.bubble-friend {
+    background: linear-gradient(135deg, #11998e, #38ef7d);
+    color: #fff;
+    align-self: flex-end;
+    border-bottom-right-radius: 6px;
+    font-weight: 500;
+}
+
+.reaction-badge {
+    position: absolute;
+    bottom: -10px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.85);
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 16px;
+    animation: badgePop 0.3s ease;
+}
+
+@keyframes badgePop {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.typing-indicator span {
+    height: 10px;
+    width: 10px;
+    background: #38ef7d;
+    display: inline-block;
+    border-radius: 50%;
+    animation: typingBounce 1.4s infinite ease-in-out;
+    margin: 0 3px;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typingBounce {
+    0%, 80%, 100% {
+        transform: translateY(0);
+        opacity: 0.4;
+    }
+    40% {
+        transform: translateY(-8px);
+        opacity: 1;
+    }
+}
+
+/* ==================== BUTTONS ==================== */
+.btn-primary {
+    background: linear-gradient(135deg, #FF416C 0%, #FF4B2B 100%);
+    color: #fff;
+    font-weight: 700;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: none;
+    position: relative;
+    overflow: hidden;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(255, 65, 108, 0.5);
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* ==================== SQUAD CARDS ==================== */
+.squad-card {
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: visible;
+}
+
+.squad-card:hover {
+    transform: translateY(-12px) scale(1.03);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+    border-color: rgba(233, 69, 96, 0.5);
+}
+
+/* ==================== ACHIEVEMENT BADGE ==================== */
+.achievement-badge {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #f7971e, #ffd200);
+    padding: 8px 18px;
+    border-radius: 25px;
+    font-size: 12px;
+    font-weight: 800;
+    color: #000;
+    z-index: 100;
+    white-space: nowrap;
+    box-shadow: 0 8px 25px rgba(247, 151, 30, 0.6);
+    animation: badgeFloat 3s ease-in-out infinite;
+    text-shadow: none;
+    letter-spacing: 0.5px;
+}
+
+@keyframes badgeFloat {
+    0%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    50% {
+        transform: translateX(-50%) translateY(-5px);
+    }
+}
+
+/* ==================== SOCIAL ICONS ==================== */
+.social-icon-card {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    color: #fff;
+    text-decoration: none;
+}
+
+.social-icon-card:hover {
+    transform: scale(1.2) rotate(5deg);
+}
+
+.social-icon-card.instagram:hover {
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+}
+
+.social-icon-card.whatsapp:hover {
+    background: #25D366;
+}
+
+.social-icon-card.twitter:hover {
+    background: #1DA1F2;
+}
+
+/* ==================== GALLERY ==================== */
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.gallery-item img,
+.gallery-item video {
+    transition: transform 0.6s ease;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.gallery-item:hover img,
+.gallery-item:hover video {
+    transform: scale(1.12);
+}
+
+.gallery-item:hover {
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    z-index: 10;
+}
+
+.gallery-track {
+    display: flex;
+    width: max-content;
+    animation: scrollGallery 45s linear infinite;
+}
+
+@keyframes scrollGallery {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.gallery-track:hover {
+    animation-play-state: paused;
+}
+
+/* ==================== STATS BARS ==================== */
+.stat-bar {
+    height: 12px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.15);
+    overflow: hidden;
+}
+
+.stat-progress {
+    height: 100%;
+    background: linear-gradient(90deg, #FF416C, #FF4B2B, #f7971e);
+    width: 0%;
+    transition: width 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border-radius: 6px;
+    position: relative;
+}
+
+.stat-progress::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* ==================== LIGHTBOX ==================== */
+#lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.96);
+    backdrop-filter: blur(15px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+}
+
+#lightbox img,
+#lightbox video {
+    max-width: 95%;
+    max-height: 85vh;
+    border-radius: 20px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+    animation: zoomIn 0.4s ease;
+}
+
+@keyframes zoomIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* ==================== LOGIN OVERLAY ==================== */
+#login-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(25px);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.4s ease;
+}
+
+/* ==================== SOCIAL LINKS ==================== */
+.social-link {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    color: #fff;
+    text-decoration: none;
+}
+
+.social-link:hover {
+    background: linear-gradient(135deg, #e94560, #ff6b6b);
+    transform: translateY(-5px) scale(1.1);
+}
+
+/* ==================== SCROLL REVEAL ANIMATIONS ==================== */
+.reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-left {
+    opacity: 0;
+    transform: translateX(-60px);
+    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.reveal-left.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reveal-right {
+    opacity: 0;
+    transform: translateX(60px);
+    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.reveal-right.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reveal-scale {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.reveal-scale.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ==================== EASTER EGG ==================== */
+.secret-animation {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(26, 26, 46, 0.98), rgba(15, 52, 96, 0.98));
+    cursor: pointer;
+}
+
+.secret-animation.active {
+    display: flex;
+    animation: fadeIn 0.5s ease;
+}
+
+.secret-text {
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, #e94560, #ff6b6b, #feca57);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: secretPulse 2s ease infinite;
+}
+
+@keyframes secretPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.08);
+    }
+}
+
+.secret-shayari {
+    margin-top: 40px;
+    max-width: 650px;
+    text-align: center;
+    font-size: 1.3rem;
+    line-height: 2.4;
+    color: #feca57;
+    animation: slideUp 0.8s ease 0.3s both;
+}
+
+@keyframes slideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==================== MINI GAME ==================== */
+#mini-game {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.4s ease;
+}
+
+#game-canvas {
+    border-radius: 20px;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
+}
+
+.game-back-btn {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    background: linear-gradient(135deg, #e94560, #ff6b6b);
+    color: #fff;
+    padding: 14px 28px;
+    border-radius: 35px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+}
+
+.game-back-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 12px 35px rgba(233, 69, 96, 0.5);
+}
+
+/* ==================== COUNTDOWN ==================== */
+.countdown-item {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    padding: 24px 36px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.4s ease;
+}
+
+.countdown-item:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 75, 43, 0.5);
+}
+
+/* ==================== SCROLLBAR ==================== */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #FF416C, #FF4B2B);
+    border-radius: 10px;
+}
+
+/* ==================== LOADING SCREEN ==================== */
+#loader {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #0f0c29, #302b63);
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.6s, visibility 0.6s;
+}
+
+#loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.loader-spinner {
+    width: 70px;
+    height: 70px;
+    border: 5px solid rgba(255, 255, 255, 0.2);
+    border-top-color: #FF416C;
+    border-right-color: #f7971e;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ==================== COMMENT BOX ==================== */
+.comment-box {
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-radius: 24px;
+    padding: 28px;
+}
+
+.comment-item {
+    display: flex;
+    gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.comment-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding-left: 14px;
+    padding-right: 14px;
+}
+
+.comment-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 3px solid #FF416C;
+}
+
+/* ==================== SHARE & LIKE BUTTONS ==================== */
+.share-btn,
+.like-counter {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.75);
+    padding: 10px 16px;
+    border-radius: 25px;
+    font-size: 13px;
+    opacity: 0;
+    transition: all 0.4s ease;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+}
+
+.share-btn {
+    top: 14px;
+    right: 14px;
+    transform: translateY(-10px);
+}
+
+.like-counter {
+    bottom: 14px;
+    left: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transform: translateY(10px);
+}
+
+.gallery-item:hover .share-btn,
+.gallery-item:hover .like-counter {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==================== SECTION TITLE ==================== */
+.section-title {
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 0;
+    width: 80px;
+    height: 5px;
+    background: linear-gradient(90deg, #e94560, #ff6b6b, #feca57);
+    border-radius: 3px;
+}
+
+/* ==================== FLOATING HEARTS ==================== */
+.floating-heart {
+    position: fixed;
+    font-size: 20px;
+    opacity: 0.15;
+    pointer-events: none;
+    animation: floatHeart 15s linear infinite;
+    z-index: 1;
+}
+
+@keyframes floatHeart {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.15;
+    }
+    90% {
+        opacity: 0.15;
+    }
+    100% {
+        transform: translateY(-100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* ==================== PARALLAX ==================== */
+.parallax-bg {
+    transition: transform 0.1s ease-out;
+}
+
+/* ==================== GLOW EFFECT ==================== */
+.glow-hover {
+    transition: all 0.4s ease;
+}
+
+.glow-hover:hover {
+    box-shadow: 0 0 30px rgba(233, 69, 96, 0.3);
+}
+
+/* ==================== STAGGER ANIMATION ==================== */
+.squad-card:nth-child(1) { animation-delay: 0.05s; }
+.squad-card:nth-child(2) { animation-delay: 0.1s; }
+.squad-card:nth-child(3) { animation-delay: 0.15s; }
+.squad-card:nth-child(4) { animation-delay: 0.2s; }
+.squad-card:nth-child(5) { animation-delay: 0.25s; }
+.squad-card:nth-child(6) { animation-delay: 0.3s; }
+.squad-card:nth-child(7) { animation-delay: 0.35s; }
+.squad-card:nth-child(8) { animation-delay: 0.4s; }
+.squad-card:nth-child(9) { animation-delay: 0.45s; }
+.squad-card:nth-child(10) { animation-delay: 0.5s; }
